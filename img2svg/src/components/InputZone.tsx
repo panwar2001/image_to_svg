@@ -29,10 +29,9 @@ const InputZone=()=>{
   const dispatch=useDispatch();
   const InputChange = (e:ChangeEvent<HTMLInputElement>) => {
     if(e.target.files){
-     dispatch(updateImage(URL.createObjectURL(e.target.files[0])));
+     dispatch(updateImage(e.target.files[0]));
     }
   };
-
 return (<Dropzone>
   <FileInput
     type="file"

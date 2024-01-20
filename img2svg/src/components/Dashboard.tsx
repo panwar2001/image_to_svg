@@ -1,6 +1,6 @@
 import InputZone from "./InputZone";
 import styled from "styled-components";
-import {useSelector} from 'react-redux';
+import image2svg from "./convert2svg";
 const Text=styled.div`
 font-family: 'Oswald';
 font-size:2em;
@@ -22,9 +22,14 @@ const Button = styled.button`
   border-radius: 1em;
   cursor: pointer;
 `;
+const ImageDisplay=styled.img`
 
+`;
+const SvgDisplay=styled.div`
+
+`;
 const Dashboard=()=>{
-   const img=useSelector((state)=>state.ImageData?.img);
+  const svgDataUri = `data:image/svg+xml,${encodeURIComponent(svgString)}`;
     return <>
     <CenterDiv>
     <Text>Free Image to SVG Convertor</Text>
@@ -33,9 +38,10 @@ const Dashboard=()=>{
         <InputZone/>
      </CenterDiv>
      <CenterDiv>
-     <Button>Convert ...</Button>
+     <Button onClick={()=>image2svg()}>Convert ...</Button>
      </CenterDiv>
-     <img src={img} height={200} width={200}/>
+     <ImageDisplay src={img} height={200} width={200}/>
+     <SvgDisplay />
     </>;
 }
 export default Dashboard;

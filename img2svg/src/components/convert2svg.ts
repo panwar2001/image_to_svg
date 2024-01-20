@@ -1,13 +1,65 @@
-// const svg_convertor=(img,img_height=200,img_width=200)=>{
-// img=img.resize((img_height,img_width))
-// let svg='<svg shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" xmlns="http://www.w3.org/2000/svg">';
-// let pixel_color=NaN;
-// for(let x=0;x<img_height;x++){
-//     for(let y=0;y<img_width;y++){
-//         pixel_color=img.getpixel((x,y));
-//         svg+=`<path d="M${x} ${y}h1v1h-1z" fill="rgb${pixel_color}"/>`    
+import {useSelector,useDispatch} from 'react-redux';
+import { RootState } from "./store/store";
+import { updateSvg } from './store/imageSlice';
+
+const image2svg=()=>{
+    var reader = new FileReader();
+    const dispatch=useDispatch();
+    const image=useSelector((state:RootState)=>state.Data.img);
+    reader.onload =()=>{
+        const img = new Image();
+        img.src = image;
+        img.onload = ()=>{
+            var canvas =<HTMLCanvasElement> document.createElement('canvas');
+            var ctx:any = canvas.getContext('2d');
+            ctx.webkitImageSmoothingEnabled = true;
+            ctx.msImageSmoothingEnabled = true;
+            ctx.imageSmoothingEnabled = true;
+
+            const width=300;
+            const height=300;
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.drawImage(img, 0, 0, width, height);
+            var imageData = ctx.getImageData(0, 0, width, height).data;
+            let svgCode='<svg shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" xmlns="http://www.w3.org/2000/svg">';
+            for (var y = 0; y < height; y++) {
+            for (var x = 0; x < width; x++) {
+                var pixelIndex = (y * width + x) * 4; 
+                var red = imageData[pixelIndex];
+                var green = imageData[pixelIndex + 1];
+                var blue = imageData[pixelIndex + 2];
+                svgCode+=`<path d="M${x} ${y}h1v1h-1z" fill="rgb(${red},${green},${blue})"/>`                                
+            }
+        }
+        svgCode+='</svg>';
+        dispatch(updateSvg(svgCode));
+        }
+    }
+    reader.readAsDataURL(image);
+}
+
+export default image2svg;
+
+
+
+
+// var MAX_WIDTH = 300;
+// var MAX_HEIGHT = 300;
+
+// var width = img.width;
+// var height = img.height;
+
+// // Change the resizing logic
+// if (width > height) {
+//     if (width > MAX_WIDTH) {
+//         height = height * (MAX_WIDTH / width);
+//         width = MAX_WIDTH;
 //     }
-// }
-// svg+='</svg>';
-// return svg;
+// } else {
+//     if (height > MAX_HEIGHT) {
+//         width = width * (MAX_HEIGHT / height);
+//         height = MAX_HEIGHT;
+//     }
 // }

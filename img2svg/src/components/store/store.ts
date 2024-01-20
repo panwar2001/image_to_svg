@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import imageReducer from './imageSlice';
 export const store = configureStore({
   reducer: {
-    ImageData: imageReducer,
+    Data: imageReducer,
   },
 })
+export type RootState=ReturnType<typeof store.getState>;
