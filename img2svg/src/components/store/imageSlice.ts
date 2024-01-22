@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState:{ img: any  ,svg: string | null} = {
+const initialState:{ img: any  ,svg: string | boolean|number} = {
     img:null,
     svg:''
 }

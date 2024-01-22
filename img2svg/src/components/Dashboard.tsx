@@ -1,10 +1,17 @@
 import InputZone from "./InputZone";
 import styled from "styled-components";
+import { useSelector,useDispatch} from 'react-redux';
+import { RootState } from "./store/store";
 import image2svg from "./convert2svg";
+import download from "./Download";
+import Footer from "./Footer";
 const Text=styled.div`
 font-family: 'Oswald';
 font-size:2em;
-color:indigo;
+justify-content:center;
+text-align:center;
+padding-top:.5em;
+padding-bottom:1.5em;
 `;
 const CenterDiv=styled.div`
  display:flex;
@@ -23,25 +30,28 @@ const Button = styled.button`
   cursor: pointer;
 `;
 const ImageDisplay=styled.img`
-
-`;
-const SvgDisplay=styled.div`
-
+ display:block;
+ padding-top:1em;
 `;
 const Dashboard=()=>{
-  const svgDataUri = `data:image/svg+xml,${encodeURIComponent(svgString)}`;
-    return <>
+  const dispatch=useDispatch();
+  const svgString=useSelector((state:RootState)=>state.Data.svg);
+  const image=useSelector((state:RootState)=>state.Data.img);
+  return <>
     <CenterDiv>
     <Text>Free Image to SVG Convertor</Text>
     </CenterDiv>
      <CenterDiv>
         <InputZone/>
      </CenterDiv>
+     {image && <CenterDiv>
+     <ImageDisplay src={image} height={200} width={250}/>
+     </CenterDiv>}
      <CenterDiv>
-     <Button onClick={()=>image2svg()}>Convert ...</Button>
+     <Button onClick={()=>image2svg(image,dispatch)}>Convert ...</Button>
      </CenterDiv>
-     <ImageDisplay src={img} height={200} width={200}/>
-     <SvgDisplay />
+     {svgString!='' && <Button onClick={()=>download('free.svg',svgString)}>download svg</Button>}
+     <Footer/>
     </>;
 }
 export default Dashboard;

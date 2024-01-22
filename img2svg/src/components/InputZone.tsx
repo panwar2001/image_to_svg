@@ -3,7 +3,11 @@ import styled from "styled-components";
 import { updateImage } from "./store/imageSlice";
 import {useDispatch} from 'react-redux';
 const Dropzone = styled.div`
-  width: 40vw;
+  width: 60%;
+  @media screen and (max-width: 425px) { 
+    width:80%;
+    height:10vh;
+   }
   height: 20vh;
   border: 5px dashed #ccc;
   display: flex;
@@ -28,8 +32,12 @@ const FileInput = styled.input`
 const InputZone=()=>{
   const dispatch=useDispatch();
   const InputChange = (e:ChangeEvent<HTMLInputElement>) => {
+    var reader = new FileReader();
     if(e.target.files){
-     dispatch(updateImage(e.target.files[0]));
+     reader.onload=(e:any)=>{
+      dispatch(updateImage(e.target.result));
+     }
+     reader.readAsDataURL(e.target.files[0]);
     }
   };
 return (<Dropzone>
