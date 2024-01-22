@@ -37,6 +37,8 @@ const Dashboard=()=>{
   const dispatch=useDispatch();
   const svgString=useSelector((state:RootState)=>state.Data.svg);
   const image=useSelector((state:RootState)=>state.Data.img);
+  const convertState=useSelector((state:RootState)=>state.Data.convertState);
+  console.log(convertState);
   return <>
     <CenterDiv>
     <Text>Free Image to SVG Convertor</Text>
@@ -48,9 +50,9 @@ const Dashboard=()=>{
      <ImageDisplay src={image} height={200} width={250}/>
      </CenterDiv>}
      <CenterDiv>
-     <Button onClick={()=>image2svg(image,dispatch)}>Convert ...</Button>
+     {convertState?<Button onClick={()=>image2svg(image,dispatch)}>Convert ...</Button>:
+     <Button onClick={()=>download('free.svg',svgString)}>download as svg</Button>}
      </CenterDiv>
-     {svgString!='' && <Button onClick={()=>download('free.svg',svgString)}>download svg</Button>}
      <Footer/>
     </>;
 }

@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState:{ img: any  ,svg: string | boolean|number} = {
+const initialState:{ img: any  ,svg: string | boolean|number, convertState:boolean} = {
     img:null,
-    svg:''
+    svg:'',
+    convertState:true
 }
 export const imageSlice = createSlice({
   name: 'Data',
@@ -13,9 +14,12 @@ export const imageSlice = createSlice({
     },
     updateSvg:(state,action)=>{
         state.svg=action.payload;
+    },
+    updateConvertState:(state,action)=>{
+        state.convertState=action.payload;
     }
   },
 })
 
-export const {updateImage,updateSvg} = imageSlice.actions;
+export const {updateImage,updateSvg,updateConvertState} = imageSlice.actions;
 export default imageSlice.reducer;

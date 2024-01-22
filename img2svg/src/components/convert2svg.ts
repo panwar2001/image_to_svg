@@ -1,4 +1,4 @@
-import { updateSvg } from "./store/imageSlice";
+import { updateConvertState, updateSvg } from "./store/imageSlice";
 const image2svg=(image:any,dispatch:any)=>{
     const img = new Image();
     img.src = image;
@@ -28,6 +28,7 @@ const image2svg=(image:any,dispatch:any)=>{
     }
     svgCode+='</svg>';
     dispatch(updateSvg(svgCode));
+    dispatch(updateConvertState(false));
  }
 }
 export default image2svg;

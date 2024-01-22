@@ -1,6 +1,6 @@
 import {ChangeEvent } from "react";
 import styled from "styled-components";
-import { updateImage } from "./store/imageSlice";
+import { updateConvertState, updateImage } from "./store/imageSlice";
 import {useDispatch} from 'react-redux';
 const Dropzone = styled.div`
   width: 60%;
@@ -32,6 +32,7 @@ const FileInput = styled.input`
 const InputZone=()=>{
   const dispatch=useDispatch();
   const InputChange = (e:ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateConvertState(true))
     var reader = new FileReader();
     if(e.target.files){
      reader.onload=(e:any)=>{
