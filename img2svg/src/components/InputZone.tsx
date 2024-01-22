@@ -1,6 +1,6 @@
 import {ChangeEvent } from "react";
 import styled from "styled-components";
-import { updateConvertState, updateImage } from "./store/imageSlice";
+import { updateConvertState, updateImage,updateFileName} from "./store/imageSlice";
 import {useDispatch} from 'react-redux';
 const Dropzone = styled.div`
   width: 60%;
@@ -19,6 +19,7 @@ const Dropzone = styled.div`
   }
   border-radius: 1em;
   background-color: transparent;
+  transition: all 0.5s ease;
 `;
 const FileInput = styled.input`
   opacity: 0;
@@ -38,6 +39,8 @@ const InputZone=()=>{
      reader.onload=(e:any)=>{
       dispatch(updateImage(e.target.result));
      }
+     console.log(e.target.files[0].name)
+     dispatch(updateFileName(e.target.files[0].name));
      reader.readAsDataURL(e.target.files[0]);
     }
   };
